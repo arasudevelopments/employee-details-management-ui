@@ -1,5 +1,5 @@
 {
-  "name": "employee-details-management-ui",
+  "name": "employee-details-management",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -11,13 +11,18 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.0.0",
+    "@angular/cdk": "^19.0.0",
     "@angular/common": "^19.0.0",
     "@angular/compiler": "^19.0.0",
     "@angular/core": "^19.0.0",
     "@angular/forms": "^19.0.0",
+    "@angular/material": "^19.0.0",
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^6.1.8",
+    "keycloak-js": "^26.0.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
