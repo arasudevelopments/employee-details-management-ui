@@ -7,6 +7,7 @@ import { Employee } from '../model/employee';
 import { MatDialog } from '@angular/material/dialog';
 import { DepartmentDialogComponent } from '../department-dialog/department-dialog.component';
 import { EmployeeDialogComponent } from '../employee-dialog/employee-dialog.component';
+import { ToastrService, ToastNoAnimation } from 'ngx-toastr';
 
 @Component({
   selector: 'app-departments',
@@ -27,7 +28,7 @@ export class DepartmentsComponent implements OnInit{
   loginTime:string = '';
 
   constructor(private keyClock: KeycloakServiceService, private dService: DepartmentService,
-     private eService: EmployeeService, private dialog:MatDialog){
+     private eService: EmployeeService, private dialog:MatDialog, private toaster: ToastrService){
 
   }
 
@@ -84,6 +85,7 @@ export class DepartmentsComponent implements OnInit{
   deleteDepartment(event:any){
     this.dService.deleteDepartment(event['departmentId']).subscribe((result)=>{
       console.log(result);
+      this.toaster.success('Department deleted', 'Info !!');
       this.getAllDepartmens();
     });
   }
@@ -94,6 +96,7 @@ export class DepartmentsComponent implements OnInit{
     }else{
       this.getAllDepartmens();
     }
+    this.toaster.success('Details Refreshed..', 'Info !!');
   }
 
   searchText(){
@@ -115,7 +118,7 @@ export class DepartmentsComponent implements OnInit{
 
   editEmployee(event:any){
     let dialogRef = this.dialog.open(EmployeeDialogComponent,{
-      width: '20%',
+      width: '16%',
       height: '75%',
       data:{id:event['employeeId']}
     }).afterClosed().subscribe((result)=>{
@@ -125,13 +128,14 @@ export class DepartmentsComponent implements OnInit{
 
   deleteEmployee(event:any){
     this.eService.deleteEmployee(event['employeeId']).subscribe((result)=>{
+      this.toaster.success('Employee deleted', 'Info !!');
       this.getAllEmployees();
     });
   }
 
   addEmployee(){
     let dialogRef = this.dialog.open(EmployeeDialogComponent,{
-      width: '20%',
+      width: '16%',
       height: '75%'
     }).afterClosed().subscribe((result)=>{
       console.log('dialog closed');

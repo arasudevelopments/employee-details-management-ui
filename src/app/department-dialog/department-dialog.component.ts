@@ -4,6 +4,7 @@ import { DepartmentService } from '../service/department.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Department } from '../model/department';
+import { ToastrService, ToastNoAnimation } from 'ngx-toastr';
 
 @Component({
   selector: 'app-department-dialog',
@@ -26,7 +27,7 @@ export class DepartmentDialogComponent {
   myDate = new Date();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {id: number}, private dService: DepartmentService,
-  private datePipe: DatePipe,private dialogRef: MatDialogRef<DepartmentDialogComponent>){
+  private datePipe: DatePipe,private dialogRef: MatDialogRef<DepartmentDialogComponent>, private toaster: ToastrService){
     if(data && data.id){
       this.primaryKey = data.id;
       this.departmentTitle = 'Edit Department';
@@ -44,13 +45,13 @@ export class DepartmentDialogComponent {
     console.log(this.dialogForm);
     if(this.primaryKey !=0 && !this.dialogForm.invalid){
       this.dService.updateDepartment(this.dialogForm.value as Department).subscribe((result)=>{
-        alert('Department updated successfully..');
+        this.toaster.success('Department details updated..', 'Info !!');
         this.dialogRef.close('success');
       });
     }else{
       if(this.primaryKey == 0 && !this.dialogForm.invalid){   
         this.dService.insertDepartment(this.dialogForm.value as Department).subscribe((result)=>{
-          alert('Department added successfully..');
+          this.toaster.success('New Department added..', 'Info !!');
           this.dialogRef.close('success');
         });
       }

@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Department } from '../model/department';
 import { DepartmentService } from '../service/department.service';
 import { Employee } from '../model/employee';
+import { ToastrService, ToastNoAnimation } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employee-dialog',
@@ -32,7 +33,7 @@ export class EmployeeDialogComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {id: number}, private eService: EmployeeService,
   private dService: DepartmentService,
-  private datePipe: DatePipe,private dialogRef: MatDialogRef<EmployeeDialogComponent>){
+  private datePipe: DatePipe,private dialogRef: MatDialogRef<EmployeeDialogComponent>,private toaster: ToastrService ){
     this.dService.getAllDepartments().subscribe((result)=>{
       this.departments = result;
     });
@@ -40,7 +41,6 @@ export class EmployeeDialogComponent {
       this.primaryKey = data.id;
       this.employeeTitle = 'Edit Employee';
       this.eService.getEmployeeById(data.id).subscribe((result)=>{
-
         console.log('dialog result :: ' + result);
         this.dialogForm.setValue({dateOfJoining:result['dateOfJoining'],name:result['name'], email:result['email'], age:result['age'],departmentId:result['departmentId'],employeeId:this.primaryKey})
       })
@@ -55,13 +55,13 @@ export class EmployeeDialogComponent {
     console.log(this.dialogForm);
     if(this.primaryKey !=0 && !this.dialogForm.invalid){
       this.eService.updateEmployee(this.dialogForm.value as Employee).subscribe((result)=>{
-        alert('Employee updated successfully..');
+        this.toaster.success('Employee details updated..', 'Info !!');
         this.dialogRef.close('success');
       });
     }else{
       if(this.primaryKey == 0 && !this.dialogForm.invalid){   
         this.eService.insertEmployee(this.dialogForm.value as Employee).subscribe((result)=>{
-          alert('Employee added successfully..');
+          this.toaster.success('Employee added successfully..', 'Info !!');
           this.dialogRef.close('success');
         });
       }

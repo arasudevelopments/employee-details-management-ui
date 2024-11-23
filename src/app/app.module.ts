@@ -21,8 +21,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { DepartmentnamePipe } from './departmentname.pipe';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
+import { provideToastr } from 'ngx-toastr';
 
 
 export function kcFactory(keycloakservice : KeycloakServiceService){
@@ -38,6 +42,8 @@ export function kcFactory(keycloakservice : KeycloakServiceService){
     DepartmentnamePipe
   ],
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
     MatSelectModule,
     ReactiveFormsModule,
     MatDatepickerModule,
@@ -54,6 +60,7 @@ export function kcFactory(keycloakservice : KeycloakServiceService){
   providers: [
     DatePipe,
     provideAnimations(),
+    provideToastr(),
     provideNativeDateAdapter(),
     {
       provide:HTTP_INTERCEPTORS,
