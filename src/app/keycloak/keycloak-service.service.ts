@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
 import { UserProfile } from './user-profile';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class KeycloakServiceService {
 
   get keycloak(){
     if(!this._keyCloak){
+      localStorage.setItem('logtime',this.datePipe.transform(new Date(),'yyyy-MM-dd HH:mm:ss')+'');
       this._keyCloak = new Keycloak({
         url:'http://localhost:8080/',
         realm: 'employee-details-management',
@@ -21,7 +23,7 @@ export class KeycloakServiceService {
     return this._keyCloak;
   }
 
-  constructor() { }
+  constructor(private datePipe: DatePipe) { }
 
   async init(){
     console.log('keyclock initialized...')

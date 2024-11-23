@@ -19,6 +19,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { DepartmentnamePipe } from './departmentname.pipe';
 
 
 export function kcFactory(keycloakservice : KeycloakServiceService){
@@ -30,9 +34,11 @@ export function kcFactory(keycloakservice : KeycloakServiceService){
     AppComponent,
     DepartmentsComponent,
     EmployeeDialogComponent,
-    DepartmentDialogComponent
+    DepartmentDialogComponent,
+    DepartmentnamePipe
   ],
   imports: [
+    MatSelectModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatInputModule,
@@ -42,10 +48,12 @@ export function kcFactory(keycloakservice : KeycloakServiceService){
     MatIconModule,
     MatButtonModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   providers: [
     DatePipe,
+    provideAnimations(),
     provideNativeDateAdapter(),
     {
       provide:HTTP_INTERCEPTORS,

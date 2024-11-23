@@ -24,11 +24,16 @@ export class DepartmentService {
   }
 
   public updateDepartment(department: Department): Observable<any>{
-    return this.httpCleint.put('http://localhost:8085/api/department/update', department);
+    return this.httpCleint.put('http://localhost:8085/api/department/alterDepartment', department);
   }
 
   public deleteDepartment(id: number){
     let params = new HttpParams().set("id",id);
-    return this.httpCleint.delete('http://localhost:8085/api/department/delete',{params:params});
+    return this.httpCleint.delete('http://localhost:8085/api/department/removeDepartment',{params:params});
+  }
+
+  public findByText(text:string){
+    let params = new HttpParams().set("search",text);
+    return this.httpCleint.get('http://localhost:8085/api/department/search', {params: params});
   }
 }

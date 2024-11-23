@@ -1,10 +1,13 @@
 <div class="main-div">
     <div class="side-menu">
         <div class="header" style="display: flex;">
-            <div class="logo">
-                <img mat-card-image class="imgs" src="D:/employee-details-management-ui/src/app/img/logo.png">
-            </div>
+            <!-- <div class="logo" [ngStyle]="{'background-image': 'url(' + './img/logo.png' + ')'}">
+                <img mat-card-image class="imgs" src="D:/employee-details-management-ui/src/app/img/logo.png"> -->
+            <!-- </div> --> 
             <h1 class="username">{{username}}</h1>
+            <h2 class="logtime">Last logged in : {{loginTime}}</h2>
+            <br>
+            
         </div>
         <div class="white-line"></div>
         <div class="menu-list">
@@ -17,25 +20,37 @@
     </div>
     <div class="body">
         <div class="top-body">
-            <input mat-input class="search-input">
+            <input type="text" class="search-input" [(ngModel)] ="searchData" (keyup)="searchText()" placeholder="search name">
+            <button mat-button class="refresh-button" (click)="refresh()">
+                <mat-icon>refresh</mat-icon>
+            </button>
             <button mat-button class="logout-button" (click)="logout()">
                 <mat-icon>logout</mat-icon>
             </button>
         </div>
         <div class="center-body">
             <div *ngIf="isEmployee" class="department-div">
-                <div class="department-card" *ngFor="let employee of employees">
-                    <h1 class="department-lable">{{employee.name}}</h1>
-                    <h1 class="department-lable">{{employee.age}}</h1>
-                    <h1 class="department-lable">{{employee.dateOfJoining}}</h1>
-                    <h1 class="department-lable">{{employee.departmentId}}</h1>
+                <div class="employee-card" *ngFor="let employee of employees">
+                    <h1 class="employee-lable">Name         : {{employee.name}}</h1>
+                    <h1 class="employee-lable">Age          : {{employee.age}}</h1>
+                    <h1 class="employee-lable">Joining Date : {{employee.dateOfJoining}}</h1>
+                    <h1 class="employee-lable">Department   : {{departments | department:employee.departmentId}}</h1>
+                    <button mat-button (click)="editEmployee(employee)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-button (click)="deleteEmployee(employee)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
                 </div>
             </div>
             <div *ngIf="isDepartment" class="department-div">
                 <div class="department-card" *ngFor="let department of departments">
-                    <h1 class="department-lable">{{department.departmentName}}</h1>
-                    <h1 class="department-lable">{{department.departmentHead}}</h1>
-                    <h1 class="department-lable">{{department.createdDate}}</h1>
+                    <h1 class="department-lable">Name: {{department.departmentName}}</h1>
+                    <h1 class="department-lable">Head: {{department.departmentHead}}</h1>
+                    <h1 class="department-lable">Created Date: {{department.createdDate}}</h1>
+                    <button mat-button (click)="viewEmployees(department)">
+                        <mat-icon>account_circle</mat-icon>
+                    </button>
                     <button mat-button (click)="editDepartment(department)">
                         <mat-icon>edit</mat-icon>
                     </button>

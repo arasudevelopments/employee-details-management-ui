@@ -6,6 +6,7 @@ import { Department } from '../model/department';
 import { Employee } from '../model/employee';
 import { MatDialog } from '@angular/material/dialog';
 import { DepartmentDialogComponent } from '../department-dialog/department-dialog.component';
+import { EmployeeDialogComponent } from '../employee-dialog/employee-dialog.component';
 
 @Component({
   selector: 'app-departments',
@@ -22,29 +23,35 @@ export class DepartmentsComponent implements OnInit{
   isDepartment:boolean = false;
   departments: Department[] = [];
   employees: Employee[] = [];
+  searchData:string = '';
+  loginTime:string = '';
 
   constructor(private keyClock: KeycloakServiceService, private dService: DepartmentService,
      private eService: EmployeeService, private dialog:MatDialog){
 
   }
 
-
   ngOnInit(): void {
     this.username = this.keyClock._userProfile?.firstName;
+    this.loginTime = localStorage.getItem('logtime')+'';
   }
 
   menuButtonClick(event:any){
     if(event.currentTarget.innerText == 'Employees'){
       this.isEmployee = true;
       this.isDepartment = false;
-      this.eService.getAllEmployees().subscribe((value)=>{
-        this.employees = value;
-      });
+      this.getAllEmployees();
     }else{
       this.isEmployee = false;
       this.isDepartment = true;
       this.getAllDepartmens();
     }
+  }
+
+  getAllEmployees(){
+    this.eService.getAllEmployees().subscribe((value)=>{
+      this.employees = value;
+    });
   }
 
   getAllDepartmens(){
@@ -81,10 +88,62 @@ export class DepartmentsComponent implements OnInit{
     });
   }
 
+  refresh(){
+    if(this.isEmployee){
+      this.getAllEmployees();
+    }else{
+      this.getAllDepartmens();
+    }
+  }
 
+  searchText(){
+    if(this.isDepartment && this.searchData != ''){
+        this.dService.findByText(this.searchData).subscribe((result)=>{
+          this.departments = result as Department[];
+        });
+    }else if(this.isEmployee && this.searchData != ''){
+      this.eService.findByText(this.searchData).subscribe((result)=>{
+        this.employees = result as Employee[];
+      });
+    }else if(this.isDepartment && this.searchData ==''){
+      this.getAllDepartmens();
+    }else if(this.isEmployee && this.searchData == ''){
+      this.getAllEmployees();  
+    }
+  }
+
+
+  editEmployee(event:any){
+    let dialogRef = this.dialog.open(EmployeeDialogComponent,{
+      width: '20%',
+      height: '75%',
+      data:{id:event['employeeId']}
+    }).afterClosed().subscribe((result)=>{
+      console.log('dialog closed');
+    });
+  }
+
+  deleteEmployee(event:any){
+    this.eService.deleteEmployee(event['employeeId']).subscribe((result)=>{
+      this.getAllEmployees();
+    });
+  }
 
   addEmployee(){
+    let dialogRef = this.dialog.open(EmployeeDialogComponent,{
+      width: '20%',
+      height: '75%'
+    }).afterClosed().subscribe((result)=>{
+      console.log('dialog closed');
+    });
+  }
 
+  viewEmployees(event:any){
+    this.isDepartment = false;
+    this.isEmployee = true;
+    this.eService.getDepartmentEmployees(event['departmentId']).subscribe((result)=>{
+      this.employees = result;
+    });
   }
 
 }

@@ -62,10 +62,15 @@ br{
     width: 78%;
     height: 7%;
     margin-left: 21rem;
+    display: flex;
 }
 
 .logout-button{
-    margin-left: 49rem;
+    margin-left: 0rem;
+}
+
+.refresh-button{
+    margin-left: 42rem;
 }
 
 .body{
@@ -94,7 +99,17 @@ br{
 .department-card{
     position: relative;
     width: 14rem;
-    height: 11rem;
+    height: 8rem;
+    background-color: #c5dcf3;
+    border-radius: 8px;
+    margin: 1rem;
+    text-align: center;
+}
+
+.employee-card{
+    position: relative;
+    width: 15rem;
+    height: 10rem;
     background-color: #c5dcf3;
     border-radius: 8px;
     margin: 1rem;
@@ -102,9 +117,15 @@ br{
 }
 
 .department-lable{
-    font-size: larger;
-    font-family: math;
-    color: darkblue;
+    font-size: small;
+    font-family: system-ui;
+    color: midnightblue;
+}
+
+.employee-lable{
+    font-size: small;
+    font-family: system-ui;
+    color: midnightblue;
 }
 
 .add-d-button{
@@ -129,4 +150,21 @@ br{
 
 .m-list-button:hover{
     color: blue;
+}
+
+.department-card:hover{
+    box-shadow: 1px 1px 6px;
+}
+
+.employee-card:hover{
+    box-shadow: 1px 1px 6px;
+}
+
+.logtime{
+    font-size: x-small;
+    color: azure;
+    font-family: emoji;
+    top: 4rem;
+    position: absolute;
+    left: 11rem;
 }

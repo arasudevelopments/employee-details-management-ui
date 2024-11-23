@@ -1,1 +1,38 @@
-<p>employee-dialog works!</p>
+<h2 mat-dialog-title>{{employeeTitle}}</h2>
+<mat-dialog-content>
+<form [formGroup]="dialogForm">
+    <mat-form-field>
+        <mat-label>Employee Name</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Age</mat-label>
+        <input matInput formControlName="age">
+</mat-form-field>
+<br>
+<mat-form-field>
+    <mat-label>Date of Joining</mat-label>
+    <input matInput [readonly]="true" formControlName="dateOfJoining">
+</mat-form-field>
+<br>
+<mat-form-field>
+    <mat-label>Choose an option</mat-label>
+    <mat-select formControlName="departmentId">
+        <mat-option *ngFor="let department of departments" [value]="department.departmentId" >
+            {{ department.departmentName }}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>
+<br>
+</form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="saveEmployee($event)">Save</button>
+</mat-dialog-actions>
